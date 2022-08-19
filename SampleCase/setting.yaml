@@ -22,7 +22,7 @@ dropletSetting:
 
 flowFieldSetting:
   # 気流データファイル(パス)(絶対パス推奨)
-  path2FlowFile : "/home/master/Documents/forpy/vtk/sax_flow.vtk"
+  path2FlowFile : "/home/master/Documents/py/droplets_simulation_py/vtk/sax_flow.vtk"
   # 気流計算の時間間隔
   DT_FLOW : 0.001
   # ステップ数オフセット(飛沫計算開始時刻における気流計算ステップ数)
