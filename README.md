@@ -75,4 +75,3 @@ $$ \bar{\mathbf{v}}^{n + 1} \space = \space \frac{\bar{\mathbf{v}}^{n} \space + 
     - 実行時にTXTファイル名を入力すると、そのファイルに列挙された複数ケースを連続実行できる
   - **basicSetting.nml**
     - optionディレクトリ内にある。付着判定のオンオフや、飛沫間合体の設定が可能。初期半径分布ファイルの指定も可能。
-
