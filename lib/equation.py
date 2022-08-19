@@ -49,10 +49,22 @@ g float:
     重力ベクトル
 """
 
-def C_D(v):
+def C_D(v:float):
+    """抗力係数
+
+    Args:
+        v (float): 飛沫速度
+
+    Returns:
+        C_D (float): 抗力係数
+    """
     return 1.
 
 coeff_drdt = -(1.- RH/100.) * (D*e_s) / (rho*R_v*T)
+"""
+coeff_drdt float:
+    蒸発方程式内に出てくる係数
+"""
 
 def differential_equations(var_array:np.ndarray, t) -> np.ndarray:
     """微分方程式
