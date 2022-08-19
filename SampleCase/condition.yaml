@@ -1,0 +1,38 @@
+dropletSetting:
+  # リスタート位置(0でオフ、1以上でオン)
+  num_restart : 0
+  # 初期分布指定ファイル名
+  initialDistributionFName : "InitialDistribution.bu"
+  # 計算終了ステップ数
+  n_end : 10000
+  # 飛沫計算の時間間隔
+  delta_t : 0.0001
+  # 計算結果の出力間隔ステップ
+  outputInterval : 100
+  # 温度[degC]
+  temperature : 25.0
+  # 相対湿度[%]
+  relativeHumidity : 60.0
+  # 総飛沫数
+  num_droplets : 10000
+  # 重力方向ベクトル(x,y,z)
+  direction_g : [0.0,0.0,-1.0]
+  # 飛沫周期発生(1秒あたり発生個数)
+  periodicGeneration : 0
+
+flowFieldSetting:
+  # 気流データファイル(パス)(絶対パス推奨)
+  path2FlowFile : "/home/master/Documents/forpy/vtk/sax_flow.vtk"
+  # 気流計算の時間間隔
+  DT_FLOW : 0.001
+  # ステップ数オフセット(飛沫計算開始時刻における気流計算ステップ数)
+  OFFSET : 0
+  # 気流計算の計算結果出力間隔ステップ(-1で定常解析)
+  INTERVAL_FLOW : -1
+  # 気流データを周期的に用いる場合の先頭と末尾(先頭＞末尾にすると無効)
+  LoopHead : 0
+  LoopTail : -1
+  # 気流計算の代表長さ[m]
+  L_represent : 1.0
+  # 気流計算の代表速度[m/s]
+  U_represent : 1.0
