@@ -3,6 +3,10 @@ Simulation of Virus-Laden Droplets Behavior in AFDET
 
 ## 現在移行期間
 
+## フォルダ構成
+とりあえず[ここ](https://qiita.com/flcn-x/items/c866eec8824a3cd70fa8#%E6%9C%80%E5%BE%8C%E3%81%AB)
+をまねる。
+
 ## 使い方
   つかえません。
 
