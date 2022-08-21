@@ -1,6 +1,4 @@
 import numpy as np
-import vtkmodules.all as vtk
-from vtkmodules.util import numpy_support
 
 droplet_dt = np.dtype([
     ("position", "f8", (3,)),
