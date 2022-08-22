@@ -13,3 +13,6 @@ def read_setting(CaseDir:str) -> Tuple[dict, dict]:
     pprint.pprint(flow_setting)
 
     return droplet_setting, flow_setting
+
+if __name__ == '__main__':
+    read_setting('case')

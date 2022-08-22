@@ -1,5 +1,5 @@
-from .lib.setting_reader import read_setting
-from .lib.SimpleVtk import SimpleVtkUnstructuredGrid
+from lib.setting_reader import read_setting
+from lib.SimpleVtk import SimpleVtkUnstructuredGrid
 
 def main():
     print("please write your case directory name")
