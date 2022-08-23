@@ -19,10 +19,22 @@ e_s float:
     飽和蒸気圧
 """
 
-rho=1.
+rho_w=1.
 """
-rho float:
+rho_w float:
     水の密度
+"""
+
+rho_a=1.
+"""
+rho_a float:
+    空気の密度
+"""
+
+gamma = (3 * rho_a) / (8 * rho_w)
+"""
+gamma float:
+    密度比
 """
 
 R_v=1.
@@ -49,7 +61,7 @@ g float:
     重力ベクトル
 """
 
-def C_D(v:float):
+def DragCoefficient(v:float):
     """抗力係数
 
     Args:
@@ -60,7 +72,7 @@ def C_D(v:float):
     """
     return 1.
 
-coeff_drdt = -(1.- RH/100.) * (D*e_s) / (rho*R_v*T)
+coeff_drdt = -(1.- RH/100.) * (D*e_s) / (rho_a*R_v*T)
 """
 coeff_drdt float:
     蒸発方程式内に出てくる係数
@@ -85,7 +97,7 @@ def differential_equations(var_array:np.ndarray, t) -> np.ndarray:
     speed:float = np.linalg.norm(v_r)
 
     drdt = coeff_drdt / r
-    dvdt = g + C_D(v) * 0.5*rho/r*speed*v_r
+    dvdt = g + DragCoefficient(speed) * 0.5*rho_a/r*speed*v_r
     dxdt = v
 
     output = np.array([drdt])
@@ -94,11 +106,36 @@ def differential_equations(var_array:np.ndarray, t) -> np.ndarray:
     # print(output)
     return output
 
+def velocity_inNextTimeStep(v:np.ndarray, r:float, dt:float) -> np.ndarray:
+    """_summary_
+        Ruturn velocity in next time step.
+
+    Args:
+        v (np.ndarray): velocity in now time step
+        r (float): radius in now time step
+        dt (float): delta time
+
+    Returns:
+        v_n (np.ndarray): velocity in next time step
+    """
+    v_r:np.ndarray = air - v
+    speed:float = np.linalg.norm(v_r)
+    C = gamma * DragCoefficient(speed) * speed / r 
+    v_n = (v + (g + C*air)*dt) / (1. + C*dt)
+
+    return v_n
+
+
+
 if __name__ == '__main__':
+    from droplet import get_dropletArray
+
+    dropets = get_dropletArray(1)
 
     t = np.linspace(0, 5, 201)              #時刻0から5まで、201step刻みで計算する
-    y0 = np.array([1., 0.,0.,0., 0.,0.,0.]) #初期値配列（半径[0]、速度[1:4]、座標[4:7]）
+    dropet = dropets[0]
+    y0 = np.hstack([dropet["radius"], dropet["velocity"], dropet["position"]]) #初期値配列（半径[0]、速度[1:4]、座標[4:7]）
 
     sol = odeint(differential_equations, y0, t)
 
-    print(sol)
+    print(sol[:, 0])
