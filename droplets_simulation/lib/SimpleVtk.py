@@ -119,6 +119,24 @@ class SimpleVtkUnstructuredGrid():
         else:
             raise OutPutError("{0} does not exist in current grid.".format(array_name))
 
+    def get_cellCenter(self):
+
+        cell2node, offsets = self.get_cells()
+        num_cell = self.get_number_of_cells()
+        num_cellVerticies = np.diff(offsets)
+        points = self.get_points()
+        cellCenter = np.zeros((num_cell-1,3))
+        
+        for i in range(num_cell-1):
+            cellVerticiesID = cell2node[offsets[i]:offsets[i+1]]
+
+            if num_cellVerticies[i] == 4:
+                cellCenter[i,0] = sum(points[cellVerticiesID,0]) / num_cellVerticies[i]
+                cellCenter[i,1] = sum(points[cellVerticiesID,1]) / num_cellVerticies[i]
+                cellCenter[i,2] = sum(points[cellVerticiesID,2]) / num_cellVerticies[i]
+    
+        return cellCenter         
+
 #ここから書き込み系のメソッド
     def set_points(self, point_array):
         '''
@@ -235,6 +253,8 @@ if __name__ == "__main__":
 
     data_s1 = ugrid.get_field_data("pressure")
     print(data_s1)
+
+    print(ugrid.get_cellCenter())
 
     output = SimpleVtkUnstructuredGrid()
     output.set_points(points)
