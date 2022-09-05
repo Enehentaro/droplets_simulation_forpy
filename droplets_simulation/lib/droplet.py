@@ -1,5 +1,5 @@
 import numpy as np
-from setting_reader import read_setting, read_dropIniPlace
+from setting_reader import read_setting, read_dropSetPlace
 
 droplet_dtype = np.dtype([
     ("position", "f8", (3,)),
@@ -51,7 +51,7 @@ def calc_dropIniPlace(num_droplets:int,dropSetPlace:np.ndarray):
 
 if __name__ == '__main__':
     droplet_setting, flow_setting = read_setting("../../case")
-    dropSetPlace = read_dropIniPlace("../../case")
+    dropSetPlace = read_dropSetPlace("../../case")
     calc_dropIniPlace(droplet_setting["num_droplets"],dropSetPlace)
     dGroup = get_dropletArray(droplet_setting["num_droplets"])
     print(dGroup)

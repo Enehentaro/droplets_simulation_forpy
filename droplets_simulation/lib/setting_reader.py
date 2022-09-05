@@ -15,7 +15,7 @@ def read_setting(CaseDir:str) -> Tuple[dict, dict]:
 
     return droplet_setting, flow_setting
 
-def read_dropIniPlace(CaseDir:str) -> np.ndarray:
+def read_dropSetPlace(CaseDir:str) -> np.ndarray:
     dropSetPlace = np.loadtxt(CaseDir + '/initial_position.txt', delimiter=",", skiprows=1, dtype='float')
     print("dropIniPlace = ", dropSetPlace)
     
@@ -23,4 +23,4 @@ def read_dropIniPlace(CaseDir:str) -> np.ndarray:
 
 if __name__ == '__main__':
     read_setting('case')
-    read_dropIniPlace('case')
+    read_dropSetPlace('case')
