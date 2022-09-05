@@ -119,7 +119,7 @@ class SimpleVtkUnstructuredGrid():
         else:
             raise OutPutError("{0} does not exist in current grid.".format(array_name))
 
-    def get_cellCenter(self):
+    def get_cellCenter(self) -> np.ndarray:
 
         cell2node, offsets = self.get_cells()
         num_cell = self.get_number_of_cells()
@@ -256,10 +256,10 @@ if __name__ == "__main__":
 
     print(ugrid.get_cellCenter())
 
-    # output = SimpleVtkUnstructuredGrid()
-    # output.set_points(points)
-    # output.set_cells(offsets, cell2node, ugrid.get_celltypes())
-    # output.add_field_cell_data("pres", data_s1, "scalar")
-    # output.make_grid()
-    # output.write_out("test.vtk")
+    output = SimpleVtkUnstructuredGrid()
+    output.set_points(points)
+    output.set_cells(offsets, cell2node, ugrid.get_celltypes())
+    output.add_field_cell_data("pres", data_s1, "scalar")
+    output.make_grid()
+    output.write_out("test.vtk")
     
