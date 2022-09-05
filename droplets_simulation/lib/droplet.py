@@ -1,5 +1,4 @@
 import numpy as np
-import pprint
 from setting_reader import read_setting, read_dropIniPlace
 
 droplet_dtype = np.dtype([
