@@ -134,7 +134,7 @@ class SimpleVtkUnstructuredGrid():
                 cellCenter[i,0] = sum(points[cellVerticiesID,0]) / num_cellVerticies[i]
                 cellCenter[i,1] = sum(points[cellVerticiesID,1]) / num_cellVerticies[i]
                 cellCenter[i,2] = sum(points[cellVerticiesID,2]) / num_cellVerticies[i]
-    
+
         return cellCenter         
 
 #ここから書き込み系のメソッド
@@ -256,10 +256,10 @@ if __name__ == "__main__":
 
     print(ugrid.get_cellCenter())
 
-    output = SimpleVtkUnstructuredGrid()
-    output.set_points(points)
-    output.set_cells(offsets, cell2node, ugrid.get_celltypes())
-    output.add_field_cell_data("pres", data_s1, "scalar")
-    output.make_grid()
-    output.write_out("test.vtk")
+    # output = SimpleVtkUnstructuredGrid()
+    # output.set_points(points)
+    # output.set_cells(offsets, cell2node, ugrid.get_celltypes())
+    # output.add_field_cell_data("pres", data_s1, "scalar")
+    # output.make_grid()
+    # output.write_out("test.vtk")
     
