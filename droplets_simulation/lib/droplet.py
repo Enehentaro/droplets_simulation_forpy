@@ -1,5 +1,6 @@
 import numpy as np
 from setting_reader import read_setting, read_dropSetPlace
+from SimpleVtk import SimpleVtkUnstructuredGrid
 
 droplet_dtype = np.dtype([
     ("position", "f8", (3,)),
@@ -44,3 +45,12 @@ if __name__ == '__main__':
     dropIniPlace = calc_dropIniPlace(droplet_setting["num_droplets"],dropSetPlace)
     dGroup = get_dropletArray(droplet_setting["num_droplets"], dropIniPlace)
     print(dGroup)
+
+    output = SimpleVtkUnstructuredGrid()
+    cell_types = np.ones(droplet_setting["num_droplets"], dtype = int)
+    offsets = np.arange(droplet_setting["num_droplets"])
+    cell2node = np.arange(droplet_setting["num_droplets"])
+    output.set_points(dGroup["position"])
+    output.set_cells(offsets, cell2node, cell_types)
+    output.make_grid()
+    output.write_out("drop.vtk")
