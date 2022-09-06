@@ -130,11 +130,11 @@ def velocity_inNextTimeStep(v:np.ndarray, r:float, dt:float) -> np.ndarray:
 if __name__ == '__main__':
     from droplet import get_dropletArray
 
-    dropets = get_dropletArray(1)
+    droplets = get_dropletArray(1)
 
     t = np.linspace(0, 5, 201)              #時刻0から5まで、201step刻みで計算する
-    dropet = dropets[0]
-    y0 = np.hstack([dropet["radius"], dropet["velocity"], dropet["position"]]) #初期値配列（半径[0]、速度[1:4]、座標[4:7]）
+    droplet = droplets[0]
+    y0 = np.hstack([droplets["radius"], droplets["velocity"], droplets["position"]]) #初期値配列（半径[0]、速度[1:4]、座標[4:7]）
 
     sol = odeint(differential_equations, y0, t)
 
