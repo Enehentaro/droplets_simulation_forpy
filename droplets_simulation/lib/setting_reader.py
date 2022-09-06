@@ -17,7 +17,7 @@ def read_setting(CaseDir:str) -> Tuple[dict, dict]:
 
 def read_dropSetPlace(CaseDir:str) -> np.ndarray:
     dropSetPlace = np.loadtxt(CaseDir + '/initial_position.txt', delimiter=",", skiprows=1, dtype='float')
-    print("dropIniPlace = ", dropSetPlace)
+    print("dropSetPlace = ", dropSetPlace)
     
     return dropSetPlace
 
