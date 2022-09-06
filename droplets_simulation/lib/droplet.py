@@ -31,12 +31,10 @@ def calc_dropIniPlace(num_droplets:int,dropSetPlace:np.ndarray) -> np.ndarray:
     min_dropSetPlace = dropSetPlace[0:3] - 0.5*dropSetPlace[3:6]
     max_dropSetPlace = dropSetPlace[0:3] + 0.5*dropSetPlace[3:6]
 
-    dropIniPlace = np.random.uniform((min_dropSetPlace[0],min_dropSetPlace[1],min_dropSetPlace[2]),(max_dropSetPlace[0],max_dropSetPlace[1],max_dropSetPlace[2]),(num_droplets,3))
+    dropIniPlace = np.random.uniform(min_dropSetPlace, max_dropSetPlace, (num_droplets,3))
 
-    print("min_dropSetPlace = ", min_dropSetPlace)
-    print("max_dropSetPlace = ", max_dropSetPlace)
-    print("dropIniPlace = ", dropIniPlace)
-    print("len(dropIniPlace) = ", len(dropIniPlace))
+    print("min_dropSetPlace =", min_dropSetPlace)
+    print("max_dropSetPlace =", max_dropSetPlace)
 
     return dropIniPlace
 
