@@ -119,6 +119,24 @@ class SimpleVtkUnstructuredGrid():
         else:
             raise OutPutError("{0} does not exist in current grid.".format(array_name))
 
+    def get_cellCenter(self) -> np.ndarray:
+
+        cell2node, offsets = self.get_cells()
+        num_cell = self.get_number_of_cells()
+        num_cellVerticies = np.diff(offsets)
+        points = self.get_points()
+        cellCenter = np.zeros((num_cell-1,3))
+        
+        for i in range(num_cell-1):
+            cellVerticiesID = cell2node[offsets[i]:offsets[i+1]]
+
+            if num_cellVerticies[i] == 4:
+                cellCenter[i,0] = sum(points[cellVerticiesID,0]) / num_cellVerticies[i]
+                cellCenter[i,1] = sum(points[cellVerticiesID,1]) / num_cellVerticies[i]
+                cellCenter[i,2] = sum(points[cellVerticiesID,2]) / num_cellVerticies[i]
+
+        return cellCenter         
+
 #ここから書き込み系のメソッド
     def set_points(self, point_array):
         '''
@@ -221,7 +239,7 @@ def writeout_core_(grid_,writer_,filename,binary,oldversion):
 
 if __name__ == "__main__":
     ugrid = SimpleVtkUnstructuredGrid()
-    ugrid.read_vtk("./vtk/sax_flow.vtk") #ここ環境に合わせて変えて
+    ugrid.read_vtk("../../vtk/sax_flow.vtk") #ここ環境に合わせて変えて
 
     print(ugrid.get_number_of_cells())
     print(ugrid.get_number_of_points())
@@ -232,9 +250,14 @@ if __name__ == "__main__":
     cell2node, offsets = ugrid.get_cells()
     cellId = 0
     print(cell2node[offsets[cellId]:offsets[cellId+1]])
+    print(cell2node)
+    print(offsets)
 
     data_s1 = ugrid.get_field_data("pressure")
     print(data_s1)
+
+    print(ugrid.get_celltypes())
+    print(ugrid.get_cellCenter())
 
     output = SimpleVtkUnstructuredGrid()
     output.set_points(points)
