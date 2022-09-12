@@ -1,6 +1,8 @@
 from lib.setting_reader import *
 from lib.SimpleVtk import SimpleVtkUnstructuredGrid
 from lib.droplet import *
+from lib.unstructured_grid import *
+import time
 
 def main():
     ugrid = SimpleVtkUnstructuredGrid()
@@ -18,6 +20,18 @@ def main():
     output_dropVTK(droplet_setting["num_droplets"],dGroup)
     
     ugrid.read_vtk(flow_setting["path2FlowFile"])
+    cellCenter = ugrid.get_cellCenter()
+
+    startTime = time.perf_counter()
+    
+    refCellId = []
+    for i in dGroup["position"]:
+        nearestID = nearest_search(cellCenter,i)
+        refCellId.append(nearestID)
+        
+    endTime = time.perf_counter()
+    print(endTime - startTime,"sec")
+    print(len(refCellId))
 
 if __name__ == '__main__':
     main()
