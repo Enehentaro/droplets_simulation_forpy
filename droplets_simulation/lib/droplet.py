@@ -1,6 +1,7 @@
 import numpy as np
 from setting_reader import read_setting, read_dropSetPlace
 from SimpleVtk import SimpleVtkUnstructuredGrid
+import random
 
 droplet_dtype = np.dtype([
     ("position", "f8", (3,)),
@@ -12,7 +13,7 @@ droplet_dtype = np.dtype([
     必要があれば適宜追加
 """
 
-def get_dropletArray(droplets:int,dropIniPlace:np.ndarray) -> np.ndarray:
+def get_dropletArray(droplets:int,dropIniPlace:np.ndarray,dropIniRad:np.ndarray) -> np.ndarray:
     """_summary_
 
     Args:
@@ -24,7 +25,7 @@ def get_dropletArray(droplets:int,dropIniPlace:np.ndarray) -> np.ndarray:
     array = np.zeros(droplets, dtype = droplet_dtype)
 
     array["position"] = dropIniPlace
-    array["radius"] = np.random.rand(droplets)
+    array["radius"] = dropIniRad
 
     return array
 
@@ -39,18 +40,33 @@ def calc_dropIniPlace(num_droplets:int,dropSetPlace:np.ndarray) -> np.ndarray:
 
     return dropIniPlace
 
+    
+def read_dropIniRadius(num_droplets:int) -> np.ndarray:
+    IniRad_ratio = np.loadtxt('../../data/initialRadius_coughing.txt', delimiter=",", skiprows=1, dtype='float')
+    IniRad = IniRad_ratio[:,0]*1.e-6
+    ratio = IniRad_ratio[:,1]
+    random.seed(0)
+    dropIniRad = random.choices(IniRad, k = num_droplets, weights = ratio)
+
+    print("initialRadius_Distribution")
+    for i in IniRad:
+        print('%e [m] :' % i, dropIniRad.count(i))
+
+    return np.array(dropIniRad)
+
 if __name__ == '__main__':
     droplet_setting, flow_setting = read_setting("../../case")
     dropSetPlace = read_dropSetPlace("../../case")
+    dropIniRadius = read_dropIniRadius(droplet_setting["num_droplets"])
     dropIniPlace = calc_dropIniPlace(droplet_setting["num_droplets"],dropSetPlace)
-    dGroup = get_dropletArray(droplet_setting["num_droplets"], dropIniPlace)
-    print(dGroup)
+    dGroup = get_dropletArray(droplet_setting["num_droplets"], dropIniPlace, dropIniRadius)
 
     output = SimpleVtkUnstructuredGrid()
-    cell_types = np.ones(droplet_setting["num_droplets"], dtype = int)
-    offsets = np.arange(droplet_setting["num_droplets"])
-    cell2node = np.arange(droplet_setting["num_droplets"])
+    cell_types = np.ones(droplet_setting["num_droplets"], dtype = np.int64)
+    offsets = np.arange(droplet_setting["num_droplets"], dtype = np.int64)
+    cell2node = np.arange(droplet_setting["num_droplets"], dtype = np.int64)
     output.set_points(dGroup["position"])
     output.set_cells(offsets, cell2node, cell_types)
+    output.add_field_cell_data("radius", dGroup["radius"], "scalar")
     output.make_grid()
-    output.write_out("drop.vtk")
+    output.write_out("../../vtk/drop.vtk")
